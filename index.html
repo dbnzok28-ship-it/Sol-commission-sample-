@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Solve Editing Works</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--card:#FFFFFF;--surface:#FFF9F2;--ink:#1C2B1F;--muted:#66705F;--line:#EEDDC6;--red:#C81E1E;--red-deep:#991B1B;--green:#15803D;--green-deep:#14532D;--gold:#F5C542;--red-soft:#FDE8E6;
+--grad-xmas:linear-gradient(135deg,#14532D 0%,#15803D 40%,#C81E1E 100%);--grad-red:linear-gradient(135deg,#991B1B 0%,#C81E1E 100%);--grad-green:linear-gradient(135deg,#14532D 0%,#15803D 100%);
+--shadow:0 1px 2px rgba(28,43,31,.05),0 8px 22px rgba(200,30,30,.06);--shadow-hover:0 2px 4px rgba(28,43,31,.06),0 14px 30px rgba(20,83,45,.14);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--card:#1E2A21;--surface:#141C16;--ink:#F3EFE8;--muted:#A9B5A4;--line:#33423A;--red-soft:#3A1F1F;--red-deep:#F28B82;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 22px rgba(0,0,0,.25);--shadow-hover:0 2px 4px rgba(0,0,0,.4),0 14px 30px rgba(0,0,0,.4);color-scheme:dark}}
+:root[data-theme="dark"]{--card:#1E2A21;--surface:#141C16;--ink:#F3EFE8;--muted:#A9B5A4;--line:#33423A;--red-soft:#3A1F1F;--red-deep:#F28B82;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:6rem}
+html,body{margin:0;background:var(--surface);color:var(--ink)}
+body{font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:"Manrope","Inter",system-ui,sans-serif;margin:0;letter-spacing:-.01em;line-height:1.15}
+p{margin:0}a{color:inherit}svg{display:block}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.wrap{max-width:68rem;margin:0 auto;padding:0 1.5rem}
+.page{display:none}.page.active{display:block}
+
+.welcome{position:relative;overflow:hidden;isolation:isolate;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;background-color:#14532D;
+background-image:radial-gradient(circle at 85% 12%,rgba(245,197,66,.28),transparent 38%),radial-gradient(circle at 8% 95%,rgba(153,27,27,.55),transparent 42%),radial-gradient(circle,rgba(255,255,255,.5) 1.5px,transparent 2px),var(--grad-xmas);
+background-size:auto,auto,60px 60px,cover;background-position:center,center,0 0,center;color:#fff;padding-top:env(safe-area-inset-top,0px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 3rem)}
+.welcome .wrap{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:center;padding-top:4.5rem;padding-bottom:4rem}
+.eyebrow{align-self:flex-start;display:inline-flex;align-items:center;gap:.5rem;font-size:.85rem;padding:.4rem .9rem;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.32)}
+.eyebrow svg{width:.95rem;height:.95rem}
+.welcome h1{font-weight:800;font-size:clamp(2.6rem,8vw,5.5rem);line-height:1.02;margin-top:1.25rem;max-width:14ch}
+.welcome p{margin-top:1.5rem;font-size:1.15rem;opacity:.94;max-width:40ch}
+.btn{display:inline-block;margin-top:2.5rem;align-self:flex-start;background:#fff;color:#991B1B;text-decoration:none;font-family:"Manrope",sans-serif;font-weight:700;padding:1rem 1.6rem;border-radius:999px;box-shadow:0 8px 20px rgba(15,30,20,.25);transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}.btn:focus-visible{outline-color:#fff}
+.lights{position:absolute;top:0;left:0;right:0;height:3.25rem;pointer-events:none;z-index:1;background:radial-gradient(circle at 50% 62%,#FDE68A 0 4px,transparent 5px) 0 0/40px 3.25rem repeat-x}
+.snow{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.snow span{position:absolute;top:-12px;width:5px;height:5px;border-radius:50%;background:#fff;opacity:.8;animation:fall 14s linear infinite;will-change:transform}
+.snow span:nth-child(even){width:4px;height:4px;animation-duration:18s}
+@keyframes fall{0%{transform:translateY(0);opacity:0}10%{opacity:.9}100%{transform:translateY(110vh);opacity:.2}}
+.wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:3rem;z-index:2}
+
+.topbar{position:sticky;top:0;z-index:10;padding-top:env(safe-area-inset-top,0px);background:var(--card);border-bottom:1px solid var(--line)}
+.topbar::after,footer.site-foot::before{content:"";position:absolute;left:0;right:0;height:5px;pointer-events:none;background:repeating-linear-gradient(45deg,#C81E1E 0 10px,#FFF 10px 20px)}
+.topbar::after{bottom:-5px}
+.topbar .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.75rem 1.5rem;padding-top:.9rem;padding-bottom:.9rem}
+.brand{font-family:"Manrope",sans-serif;font-weight:800;font-size:1.1rem;text-decoration:none;background:var(--grad-xmas);-webkit-background-clip:text;background-clip:text;color:transparent}
+.topbar nav ul{display:flex;gap:.35rem;list-style:none;margin:0;padding:0;overflow-x:auto;scrollbar-width:none}
+.topbar nav ul::-webkit-scrollbar{display:none}
+.topbar nav a{display:block;padding:.45rem .9rem;border-radius:999px;color:var(--muted);text-decoration:none;font-weight:500;font-size:.93rem;white-space:nowrap}
+.topbar nav a:hover{background:var(--red-soft);color:var(--red-deep)}
+
+.intro{padding:4.5rem 0 2.5rem}
+.intro h1{font-weight:800;font-size:clamp(2.2rem,6vw,3.75rem);max-width:18ch;background:var(--grad-xmas);-webkit-background-clip:text;background-clip:text;color:transparent}
+.intro p{margin-top:1rem;color:var(--muted);font-size:1.1rem;max-width:46ch}
+section.group{padding:1.5rem 0}
+.group-head{display:flex;align-items:center;gap:.9rem;margin-bottom:1.25rem}
+.group-head h2{font-weight:700;font-size:clamp(1.5rem,3vw,2rem)}
+.group-head::after{content:"";margin-left:auto;width:.8rem;height:.8rem;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FDE68A,#C81E1E 65%);box-shadow:0 0 10px rgba(245,197,66,.5)}
+.group-sub{color:var(--muted);margin:-.5rem 0 1.25rem}
+
+.card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:1.25rem;padding:1.75rem;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s,border-color .25s}
+@media(hover:hover){.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);border-color:#F5C0B8}.price-item:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}}
+.card h3{font-size:1.15rem;font-weight:700}
+
+.gallery{display:flex;flex-direction:column;gap:.25rem}
+.track{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:.25rem .25rem .5rem;align-items:flex-start;scrollbar-width:none}
+.track::-webkit-scrollbar{display:none}
+.track:focus-visible{outline-offset:0;border-radius:1.25rem}
+.track>.card{flex:0 0 auto;scroll-snap-align:start;padding:.75rem;margin:0;display:flex;flex-direction:column;gap:.75rem}
+.track.banner>.card{flex-basis:88%}
+.track.sq>.card{flex-basis:70%}
+.track.sm>.card{width:12.5rem}
+@media(min-width:560px){.track.sq>.card{flex-basis:45%}}
+@media(min-width:720px){.track.banner>.card{flex-basis:62%}}
+@media(min-width:1040px){.track.banner>.card{flex-basis:48%}.track.sq>.card{flex-basis:24%}}
+.track.pot>.card{align-items:flex-start}
+.track.pot .frame{height:26rem;width:auto;max-width:100%}
+.frame{position:relative;overflow:hidden;border-radius:1rem;margin:0;background:var(--surface)}
+.frame img{width:100%;height:100%;object-fit:contain;display:block}
+.g-cap{padding:.25rem .35rem .35rem}
+.g-cap h3{font-size:1.05rem}
+.tags{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.75rem}
+.tag{font-size:.82rem;padding:.3rem .7rem;border-radius:999px;background:var(--grad-red);color:#fff;font-weight:600}
+#work{padding-bottom:0}#profiles{padding:.5rem 0 0}#proof{padding-top:.5rem}
+
+img.zoom{cursor:zoom-in}
+.lightbox{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:1.5rem;background:rgba(15,23,42,.88);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.lightbox[hidden]{display:none}
+.lightbox img{max-width:100%;max-height:88vh;width:auto;height:auto;object-fit:contain;border-radius:.75rem;background:#fff}
+.lb-close{position:absolute;top:1rem;right:1rem;width:2.75rem;height:2.75rem;border-radius:50%;border:none;background:#fff;color:#1C2B1F;font-size:1.5rem;line-height:1;cursor:pointer}
+
+.price-grid{display:grid;grid-template-columns:1fr;gap:.75rem}
+@media(min-width:560px){.price-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:860px){.price-grid{grid-template-columns:repeat(3,1fr)}}
+.price-item{position:relative;display:flex;justify-content:space-between;align-items:center;gap:1rem;background:var(--card);border:1px solid var(--line);border-radius:1rem;padding:1.1rem 1.25rem;box-shadow:var(--shadow);overflow:hidden;transition:transform .25s,box-shadow .25s}
+.price-item::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--grad-red)}
+.price-item span{font-weight:500;padding-left:.4rem}
+.price-item strong{font-family:"Manrope",sans-serif;font-weight:800;font-size:1.15rem;color:var(--red-deep);white-space:nowrap}
+.price-item.feature{background:var(--grad-xmas);border-color:transparent}
+.price-item.feature::before{display:none}
+.price-item.feature span,.price-item.feature strong{color:#fff}
+
+.grid{display:grid;gap:1.25rem}
+@media(min-width:720px){.grid.two{grid-template-columns:repeat(2,1fr)}}
+.cred-card::before,.term::before{content:"";position:absolute;left:1.75rem;top:-1px;width:3rem;height:4px;border-radius:0 0 4px 4px;background:var(--grad-red)}
+.cred-card .year{display:block;font-family:"Manrope",sans-serif;font-weight:800;font-size:.85rem;margin:.4rem 0 .9rem;background:var(--grad-xmas);-webkit-background-clip:text;background-clip:text;color:transparent;width:fit-content}
+
+.terms-grid{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:760px){.terms-grid{grid-template-columns:repeat(2,1fr)}}
+.term h3{margin-bottom:.75rem}
+.term ul{margin:0;padding-left:1.1rem;color:var(--muted)}
+.term li{margin:.4rem 0}
+.term.feature{background:var(--grad-green);border-color:transparent;color:#fff;box-shadow:0 14px 30px rgba(20,83,45,.25)}
+.term.feature::before{background:var(--gold)}
+.term.feature p{color:#DCFCE7}
+.term-note{margin-top:1.5rem;color:var(--muted);font-weight:500}
+
+.contact-card{position:relative;overflow:hidden;background:var(--card);border:1px solid var(--line);border-radius:1.5rem;box-shadow:var(--shadow);padding:2.5rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1.5rem}
+.contact-card::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 100% 0%,rgba(245,197,66,.2),transparent 50%)}
+.contact-card>*{position:relative}
+.contact-card h2{font-weight:800;font-size:clamp(1.8rem,4vw,2.5rem)}
+.mail{display:inline-block;background:var(--grad-red);color:#fff;text-decoration:none;font-family:"Manrope",sans-serif;font-weight:700;padding:.95rem 1.4rem;border-radius:.9rem;box-shadow:0 8px 18px rgba(200,30,30,.25);transition:transform .2s}
+.mail:hover{transform:translateY(-2px)}
+
+footer.site-foot{position:relative;padding:2.25rem 0 3rem;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line)}
+footer.site-foot::before{top:-5px}
+footer.site-foot .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.back{color:var(--muted);text-decoration:none}.back:hover{color:var(--red-deep)}
+
+@media(max-width:640px){
+html{scroll-padding-top:9rem}
+.topbar nav,.topbar nav ul{width:100%}
+.topbar nav a{padding:.4rem .8rem;font-size:.88rem}
+.topbar .wrap{gap:.6rem;padding-top:.75rem;padding-bottom:.6rem}
+.contact-card{padding:1.5rem;flex-direction:column;align-items:stretch}
+.mail{text-align:center}}
+@media(prefers-reduced-motion:no-preference){
+.welcome h1{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
+.welcome p,.welcome .btn,.welcome .eyebrow{animation:rise .7s .12s cubic-bezier(.2,.7,.2,1) both}}
+@media(prefers-reduced-motion:reduce){.snow{display:none}}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="page" id="welcome">
+  <div class="welcome">
+    <div class="lights" aria-hidden="true"></div>
+    <div class="snow" aria-hidden="true"><span style="left:8%;animation-delay:0s"></span><span style="left:26%;animation-delay:4s"></span><span style="left:44%;animation-delay:8s"></span><span style="left:62%;animation-delay:2s"></span><span style="left:80%;animation-delay:6s"></span><span style="left:94%;animation-delay:10s"></span></div>
+    <div class="wrap">
+      <span class="eyebrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.6 6.9L22 10l-5.5 4.6L18.2 22 12 18.2 5.8 22l1.7-7.4L2 10l7.4-1.1z" fill="#FDE68A"/></svg>Editing and graphics</span>
+      <h1>Welcome to Solve Editing Works</h1>
+      <p>Clean edits, clear standards, and work you can review before we start.</p>
+      <a class="btn" href="#site">Explore my work</a>
+    </div>
+    <svg class="wave" viewBox="0 0 1440 48" preserveAspectRatio="none" aria-hidden="true"><path d="M0,24 C240,48 480,0 720,24 C960,48 1200,0 1440,24 L1440,48 L0,48 Z" fill="#FFF9F2"/></svg>
+  </div>
+</div>
+
+<div class="page" id="site">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="#welcome">Solve Editing Works</a>
+      <nav aria-label="Main"><ul>
+        <li><a href="#work">Work</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#credentials">Credentials</a></li><li><a href="#terms">Terms</a></li><li><a href="#contact">Contact</a></li>
+      </ul></nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="intro">
+      <h1>Editing that is clean, honest, and on time.</h1>
+      <p>Recent work, pricing, and where I trained.</p>
+    </div>
+
+    <section class="group" id="work">
+      <div class="group-head"><h2>Editing samples</h2></div>
+      <div class="gallery">
+        <div class="track banner" role="region" aria-label="Banner samples" tabindex="0">
+          <figure class="card"><div class="frame" style="aspect-ratio:16/9"><img class="zoom" src="images/12644.webp" alt="Nina Cutiee banner" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Banner</h3><div class="tags"><span class="tag">₱40</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:16/9"><img class="zoom" src="images/12643.webp" alt="Nina Cutiee pinned post banner" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Banner</h3><div class="tags"><span class="tag">₱40</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:16/9"><img class="zoom" src="images/12170.webp" alt="Legit Area banner" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Banner</h3><div class="tags"><span class="tag">₱40</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:16/9"><img class="zoom" src="images/10054.webp" alt="Mimi Juwi welcome profile banner" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Banner</h3><div class="tags"><span class="tag">₱40</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:2/1"><img class="zoom" src="images/8253.webp" alt="POMBNST Official banner" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Banner</h3><div class="tags"><span class="tag">₱40</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:2/1"><img class="zoom" src="images/8048.webp" alt="Pinned post banner, purple" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Banner</h3><div class="tags"><span class="tag">₱40</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:2/1"><img class="zoom" src="images/8047.webp" alt="Pinned post banner, pink" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Banner</h3><div class="tags"><span class="tag">₱40</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:2/1"><img class="zoom" src="images/5782.webp" alt="Webverse banner" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Banner</h3><div class="tags"><span class="tag">₱40</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:2/1"><img class="zoom" src="images/5245.webp" alt="Kiaras Vouching Area banner" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Banner</h3><div class="tags"><span class="tag">₱40</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:2/1"><img class="zoom" src="images/5301.webp" alt="Happy birthday banner" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Banner</h3><div class="tags"><span class="tag">₱40</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:2/1"><img class="zoom" src="images/8355.webp" alt="ADMX hiring applicant banner" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Banner</h3><div class="tags"><span class="tag">₱40</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:2/1"><img class="zoom" src="images/8334.webp" alt="Welcome to my profile banner" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Banner</h3><div class="tags"><span class="tag">₱40</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:16/9"><img class="zoom" src="images/12673.webp" alt="Kiyel’s Legitimacy banner" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Banner</h3><div class="tags"><span class="tag">₱40</span></div></figcaption></figure>
+        </div>
+        <div class="track sq" role="region" aria-label="Stamp samples" tabindex="0">
+          <figure class="card"><div class="frame" style="aspect-ratio:1/1"><img class="zoom" src="images/8251.webp" alt="Sold! Pomie Legit stamp" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Stamp</h3><div class="tags"><span class="tag">₱15</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:1/1"><img class="zoom" src="images/12693.webp" alt="Successful Transaction stamp" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Stamp</h3><div class="tags"><span class="tag">₱15</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:1/1"><img class="zoom" src="images/12692.webp" alt="Successful trans strawberry stamp" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Stamp</h3><div class="tags"><span class="tag">₱15</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:1/1"><img class="zoom" src="images/12688.webp" alt="Haan Rujia stamp" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Stamp</h3><div class="tags"><span class="tag">₱15</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:1/1"><img class="zoom" src="images/12686.webp" alt="Mizuki Soma stamp" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Stamp</h3><div class="tags"><span class="tag">₱15</span></div></figcaption></figure>
+        </div>
+        <div class="track sq" role="region" aria-label="Profile picture samples" tabindex="0">
+          <figure class="card"><div class="frame" style="aspect-ratio:1/1"><img class="zoom" src="images/8399.webp" alt="Adelaide Seraphine profile picture" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Profile Picture</h3><div class="tags"><span class="tag">₱35</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:1/1"><img class="zoom" src="images/12539.webp" alt="GFX creator profile picture" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Profile Picture</h3><div class="tags"><span class="tag">₱35</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:1/1"><img class="zoom" src="images/7284.webp" alt="Webverse staff profile picture" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Profile Picture</h3><div class="tags"><span class="tag">₱35</span></div></figcaption></figure>
+        </div>
+        <div class="track sm" role="region" aria-label="Highlight samples" tabindex="0">
+          <figure class="card"><div class="frame" style="aspect-ratio:9/16"><img class="zoom" src="images/7740.webp" alt="Highlights sample" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Highlights</h3><div class="tags"><span class="tag">₱35</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:9/16"><img class="zoom" src="images/7737.webp" alt="Highlights sample" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Highlights</h3><div class="tags"><span class="tag">₱35</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:9/16"><img class="zoom" src="images/7736.webp" alt="Highlights sample" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Highlights</h3><div class="tags"><span class="tag">₱35</span></div></figcaption></figure>
+        </div>
+        <div class="track sq" role="region" aria-label="Logo samples" tabindex="0">
+          <figure class="card"><div class="frame" style="aspect-ratio:1/1"><img class="zoom" src="images/5781.webp" alt="WEBV logo sample" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Logo</h3><div class="tags"><span class="tag">₱40</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:1/1"><img class="zoom" src="images/8252.webp" alt="POMBNST logo" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Logo</h3><div class="tags"><span class="tag">₱40</span></div></figcaption></figure>
+        </div>
+        <div class="track pot" role="region" aria-label="Proof of transaction samples" tabindex="0">
+          <figure class="card"><div class="frame" style="aspect-ratio:9/16"><img class="zoom" src="images/12685.webp" alt="Jollibee Mcdo proof of transaction" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Proof of Transaction</h3><div class="tags"><span class="tag">₱40</span></div></figcaption></figure>
+          <figure class="card"><div class="frame" style="aspect-ratio:1/2"><img class="zoom" src="images/12694.webp" alt="Saz’s proof of transaction" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Proof of Transaction</h3><div class="tags"><span class="tag">₱40</span></div></figcaption></figure>
+        </div>
+        <div class="track sq" role="region" aria-label="QR samples" tabindex="0">
+          <figure class="card"><div class="frame" style="aspect-ratio:1/1"><img class="zoom" src="images/12695.webp" alt="Adelaide’s QR code" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>QR</h3><div class="tags"><span class="tag">₱30</span></div></figcaption></figure>
+        </div>
+        <div class="track sq" role="region" aria-label="Price list samples" tabindex="0">
+          <figure class="card"><div class="frame" style="aspect-ratio:1/1"><img class="zoom" src="images/12687.webp" alt="Mizuki Bakery price list" loading="lazy" decoding="async"></div><figcaption class="g-cap"><h3>Price List</h3><div class="tags"><span class="tag">₱35</span></div></figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="group" id="pricing">
+      <div class="group-head"><h2>GFX pricelist</h2></div>
+      <div class="price-grid">
+        <div class="price-item"><span>Banner</span><strong>₱40</strong></div>
+        <div class="price-item"><span>Profile picture</span><strong>₱35</strong></div>
+        <div class="price-item"><span>Highlights</span><strong>₱35</strong></div>
+        <div class="price-item"><span>Logo</span><strong>₱40</strong></div>
+        <div class="price-item"><span>Stamp</span><strong>₱15</strong></div>
+        <div class="price-item"><span>QR</span><strong>₱30</strong></div>
+        <div class="price-item"><span>POT</span><strong>₱40</strong></div>
+        <div class="price-item"><span>Price list</span><strong>₱35</strong></div>
+        <div class="price-item feature"><span>Others</span><strong>₱35–₱40</strong></div>
+      </div>
+    </section>
+
+    <section class="group" id="credentials">
+      <div class="group-head"><h2>Credentials</h2></div>
+      <div class="grid two"><div class="card cred-card"><span class="year">2025</span><h3>Editor since 2025</h3></div></div>
+    </section>
+
+    <section class="group" id="terms">
+      <div class="group-head"><h2>Terms &amp; Conditions</h2></div>
+      <p class="group-sub">Please read carefully before placing a commission order.</p>
+      <div class="terms-grid">
+        <div class="card term"><h3>1. General Rules</h3><ul><li>By commissioning me, you automatically agree to these Terms &amp; Conditions.</li><li>Please provide clear and complete details about your requested commission.</li><li>I have the right to decline any commission request.</li></ul></div>
+        <div class="card term"><h3>2. Payment Policy</h3><ul><li>Payment must be settled according to the agreed payment arrangement.</li><li>No work will begin until the required down payment is received.</li><li>Payments are non-refundable once the commission has started, except when required by applicable law.</li></ul></div>
+        <div class="card term"><h3>3. Revisions</h3><ul><li>Minor revisions are allowed during the process.</li><li>Major changes after approval may require additional fees.</li><li>Please review your commission carefully before approving the final version.</li></ul></div>
+        <div class="card term"><h3>4. Time and Delivery</h3><ul><li>Completion time depends on the complexity of the project.</li><li>Delays may happen due to unexpected circumstances.</li><li>I will keep you updated about your commission’s progress.</li></ul></div>
+        <div class="card term"><h3>5. Cancellation and Refunds</h3><ul><li>Clients may cancel before work begins.</li><li>Once work has started, refunds are generally not available.</li><li>If I am unable to complete your commission, I will discuss an appropriate refund or alternative arrangement.</li></ul></div>
+        <div class="card term"><h3>6. Usage and Copyright</h3><ul><li>I retain ownership of my original work unless otherwise agreed.</li><li>Clients may not resell, redistribute, or claim my work as their own without permission.</li><li>Commercial usage must be discussed and agreed upon beforehand.</li></ul></div>
+        <div class="card term"><h3>7. Client Responsibilities</h3><ul><li>Provide accurate references and instructions.</li><li>Respond to questions and updates on time.</li><li>Treat all communication respectfully.</li></ul></div>
+        <div class="card term feature"><h3>8. Agreement</h3><p>By submitting a commission request or making a payment, you confirm that you have read, understood, and agreed to these Terms &amp; Conditions.</p></div>
+      </div>
+      <p class="term-note">Thank you for supporting my commission services! ♡</p>
+    </section>
+
+    <section class="group" id="contact">
+      <div class="contact-card">
+        <div><h2>Let’s work together</h2></div>
+        <a class="mail" href="https://www.facebook.com/profile.php?id=61593966963363" target="_blank" rel="noopener">Message me on Facebook</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-foot"><div class="wrap"><span>Solve Editing Works</span><a class="back" href="#welcome">Back to welcome</a></div></footer>
+</div>
+
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Sample preview">
+  <button class="lb-close" type="button" aria-label="Close preview">&times;</button>
+  <img alt="">
+</div>
+
+<script>
+(function(){
+  var pages=document.querySelectorAll('.page');
+  function setPage(n){pages.forEach(function(p){p.classList.toggle('active',p.id===n)})}
+  function route(){
+    var h=(location.hash||'#welcome').slice(1);
+    if(h==='welcome'||h==='site'){setPage(h);window.scrollTo(0,0);return}
+    var el=document.getElementById(h);
+    if(el&&el.closest('.page')){setPage(el.closest('.page').id);requestAnimationFrame(function(){el.scrollIntoView({block:'start'})})}
+    else setPage('welcome');
+  }
+  window.addEventListener('hashchange',route);route();
+
+  var lb=document.getElementById('lightbox'),lbImg=lb.querySelector('img'),closeBtn=lb.querySelector('.lb-close');
+  function open(s,a){lbImg.src=s;lbImg.alt=a||'';lb.hidden=false;document.body.style.overflow='hidden';closeBtn.focus()}
+  function close(){lb.hidden=true;lbImg.removeAttribute('src');document.body.style.overflow=''}
+  document.querySelectorAll('img.zoom').forEach(function(img){
+    img.setAttribute('tabindex','0');img.setAttribute('role','button');
+    img.addEventListener('click',function(){open(img.src,img.alt)});
+    img.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open(img.src,img.alt)}});
+  });
+  lb.addEventListener('click',function(e){if(e.target===lb||e.target===closeBtn)close()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!lb.hidden)close()});
+})();
+</script>
+</body>
+</html>
